@@ -1,5 +1,5 @@
 import socket
-import bbsm_constants as bbsm
+import BBSM_CONSTANTS
 
 
 class Server:
@@ -9,14 +9,14 @@ class Server:
 
     def connect_to_client(self):
         self.bbb_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.bbb_socket.bind((bbsm.HOST, bbsm.PORT))
+        self.bbb_socket.bind((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
         self.bbb_socket.listen()
         self.connection, self.address = self.bbb_socket.accept()
         print('Connected by', self.address)
 
     def communicate_with_client(self):
         while True:
-            data = self.connection.recv(bbsm.MAX_FILE_SIZE)
+            data = self.connection.recv(BBSM_CONSTANTS.MAX_FILE_SIZE)
             if not data:  # Empty string indicates client is ready to close connection
                 break
             # TODO: parse json into a dictionary
