@@ -19,7 +19,7 @@ class Client:
 
     def json_request_response_bbb(self, json_to_send):
         self.send_json_to_bbb(json_to_send)
-        return self.receive_json_from_bbb(self)
+        return self.receive_json_from_bbb()
 
     def disconnect_from_bbb(self):
         self.bbb_socket.shutdown(socket.SHUT_RDWR)
