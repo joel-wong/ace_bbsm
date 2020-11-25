@@ -7,14 +7,15 @@ def send_msg(sock, msg):
     encoded_msg_len = msg_len.to_bytes(BBSM_CONSTANTS.MESSAGE_PREFIX_LENGTH, 'big')
     # Send message length
     sent = sock.send(encoded_msg_len)
-    if sent == 0:
-        raise RuntimeError("socket connection broken")
+    if sent != BBSM_CONSTANTS.MESSAGE_PREFIX_LENGTH:
+        raise RuntimeError("sending error, not all packets not sent")
     # Send message
     totalsent = 0
     while totalsent < msg_len:
-        sent = sock.send(encoded_msg[totalsent:])
-        if sent == 0:
-            raise RuntimeError("socket connection broken")
+        sent = sock.send(encoded_msg[totalsent: min((totalsent + BBSM_CONSTANTS.RECEIVE_BUFFER_SIZE), msg_len)])
+        packet_length = min((totalsent + BBSM_CONSTANTS.RECEIVE_BUFFER_SIZE), msg_len)-totalsent
+        if sent != packet_length:
+            raise RuntimeError("sending error, not all packets not sent")
         totalsent = totalsent + sent
 
 
