@@ -17,6 +17,10 @@ class Client:
         data = message.recv_msg(self.bbb_socket)
         return data
 
+    def json_request_response_bbb(self, json_to_send):
+        self.send_json_to_bbb(json_to_send)
+        return self.receive_json_from_bbb(self)
+
     def disconnect_from_bbb(self):
         self.bbb_socket.shutdown(socket.SHUT_RDWR)
         self.bbb_socket.close()
@@ -27,7 +31,6 @@ class Client:
 jstring = "Hello"
 c = Client()
 c.connect_to_bbb()
-c.send_json_to_bbb(jstring)
-received_jstring = c.receive_json_from_bbb()
+received_jstring = c.json_request_response_bbb(jstring)
 c.disconnect_from_bbb()
 '''
