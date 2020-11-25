@@ -1,5 +1,6 @@
 import socket
 import BBSM_CONSTANTS
+import message
 
 
 class Client:
@@ -10,23 +11,23 @@ class Client:
         self.bbb_socket.connect((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
 
     def send_json_to_bbb(self, json_to_send):
-        self.bbb_socket.sendall(bytes(json_to_send, 'utf-8'))
+        message.send_msg(self.bbb_socket, json_to_send)
 
     def receive_json_from_bbb(self):
-        data = self.bbb_socket.recv(BBSM_CONSTANTS.MAX_FILE_SIZE)
+        data = message.recv_msg(self.bbb_socket)
         return data
 
     def disconnect_from_bbb(self):
-        self.bbb_socket.sendall(bytes("", 'utf-8'))  # Send empty string to indicate connection can be terminated
+        self.bbb_socket.shutdown(socket.SHUT_RDWR)
         self.bbb_socket.close()
 
 
 # Sample use of class Client
 '''
-jstring = "hi"
+jstring = "Hello"
 c = Client()
 c.connect_to_bbb()
 c.send_json_to_bbb(jstring)
-jstring_received = c.receive_json_from_bbb()
+received_jstring = c.receive_json_from_bbb()
 c.disconnect_from_bbb()
 '''
