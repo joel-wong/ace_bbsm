@@ -27,7 +27,8 @@ class Server:
         self.connection.close()
 
     def start_server(self):
-        self.bbb_socket = socket.create_server((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
+        self.bbb_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.bbb_socket.bind((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
         self.bbb_socket.listen()
         if BBSM_CONSTANTS.ALLOW_SERVER_TIMEOUT:
             self.bbb_socket.settimeout(BBSM_CONSTANTS.SERVER_TIMEOUT)
