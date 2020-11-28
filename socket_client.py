@@ -28,9 +28,13 @@ class Client:
 
 # Sample use of class Client
 '''
-jstring = "Hello"
 c = Client()
 c.connect_to_bbb()
-received_jstring = c.json_request_response_bbb(jstring)
+while True:
+    jstring = input('>')
+    if jstring == "":
+        break
+    received_jstring = c.json_request_response_bbb(jstring)
+    print(received_jstring)
 c.disconnect_from_bbb()
 '''
