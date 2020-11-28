@@ -45,8 +45,7 @@ class Server:
 
 
 # Sample use of class Server
-'''
 s = Server()
 s.start_server()
 s.close_server()
-'''
+
