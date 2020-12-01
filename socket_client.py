@@ -6,8 +6,10 @@ import message
 class Client:
     bbb_socket = None
 
-    def connect_to_bbb(self):
+    def __init__(self):
         self.bbb_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def connect_to_bbb(self):
         self.bbb_socket.connect((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
 
     def send_json_to_bbb(self, json_to_send):
@@ -27,14 +29,13 @@ class Client:
 
 
 # Sample use of class Client
-'''
-c = Client()
-c.connect_to_bbb()
-while True:
-    jstring = input('>')
-    if jstring == "":
-        break
-    received_jstring = c.json_request_response_bbb(jstring)
-    print(received_jstring)
-c.disconnect_from_bbb()
-'''
+if __name__ == "__main__":
+    c = Client()
+    c.connect_to_bbb()
+    while True:
+        jstring = input('>')
+        if jstring == "":
+            break
+        received_jstring = c.json_request_response_bbb(jstring)
+        print(received_jstring)
+    c.disconnect_from_bbb()

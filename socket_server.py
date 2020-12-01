@@ -8,6 +8,9 @@ class Server:
     connection = None
     address = None
 
+    def __init__(self):
+        self.bbb_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     def connect_to_client(self):
         self.connection, self.address = self.bbb_socket.accept()
         print('Connected by', self.address)
@@ -27,7 +30,6 @@ class Server:
         self.connection.close()
 
     def start_server(self):
-        self.bbb_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.bbb_socket.bind((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
         self.bbb_socket.listen()
         if BBSM_CONSTANTS.ALLOW_SERVER_TIMEOUT:
@@ -45,6 +47,7 @@ class Server:
 
 
 # Sample use of class Server
-s = Server()
-s.start_server()
-s.close_server()
+if __name__ == "__main__":
+    s = Server()
+    s.start_server()
+    s.close_server()
