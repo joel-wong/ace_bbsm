@@ -15,16 +15,11 @@ class Server:
         self.connection, self.address = self.bbb_socket.accept()
         print('Connected by', self.address)
 
-    def communicate_with_client(self):
-        while True:
-            data = message.recv_msg(self.connection)
-            if not data:  # Empty string indicates client is ready to close connection
-                break
-            # TODO: parse json into a dictionary
-            # TODO: call BBB IO functions to output/read data
-            # TODO: parse collected data into json
-            # TODO: send json back to client
-            message.send_msg(self.connection, data)  # Temporarily just sends back what was received
+    def receive_from_client(self):
+        return message.recv_msg(self.connection)
+
+    def send_to_client(self, data):
+        message.send_msg(self.connection, data)
 
     def disconnect_from_client(self):
         self.connection.close()
@@ -33,14 +28,7 @@ class Server:
         self.bbb_socket.bind((BBSM_CONSTANTS.HOST, BBSM_CONSTANTS.PORT))
         self.bbb_socket.listen()
         if BBSM_CONSTANTS.ALLOW_SERVER_TIMEOUT:
-            self.bbb_socket.settimeout(BBSM_CONSTANTS.SERVER_TIMEOUT)
-        while True:
-            try:
-                self.connect_to_client()
-            except socket.timeout:
-                break
-            self.communicate_with_client()
-            self.disconnect_from_client()
+            s.bbb_socket.settimeout(BBSM_CONSTANTS.SERVER_TIMEOUT)
 
     def close_server(self):
         self.bbb_socket.close()
@@ -50,4 +38,19 @@ class Server:
 if __name__ == "__main__":
     s = Server()
     s.start_server()
+    while True:
+        try:
+            s.connect_to_client()
+        except socket.timeout:
+            break
+        while True:
+            data = s.receive_from_client()
+            if not data:  # Empty string indicates client is ready to close connection
+                break
+            # TODO: parse json into a dictionary
+            # TODO: call BBB IO functions to output/read data
+            # TODO: parse collected data into json
+            # TODO: send json back to client
+            s.send_to_client(data)  # Temporarily just sends back what was received
+        s.disconnect_from_client()
     s.close_server()
