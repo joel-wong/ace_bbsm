@@ -8,16 +8,16 @@ def send_msg(sock, msg):
     # Send message length
     sent = sock.send(encoded_msg_len)
     if sent != BBSM_CONSTANTS.MESSAGE_PREFIX_LENGTH:
-        raise RuntimeError("sending error, not all packets not sent")
+        raise RuntimeError("sending error, not all packets sent")
     # Send message
-    totalsent = 0
-    while totalsent < msg_len:
-        send_up_to = min((totalsent + BBSM_CONSTANTS.RECEIVE_BUFFER_SIZE), msg_len)
-        sent = sock.send(encoded_msg[totalsent: send_up_to])
-        packet_length = send_up_to - totalsent
+    total_bytes_sent = 0
+    while total_bytes_sent < msg_len:
+        send_up_to = min((total_bytes_sent + BBSM_CONSTANTS.RECEIVE_BUFFER_SIZE), msg_len)
+        sent = sock.send(encoded_msg[total_bytes_sent: send_up_to])
+        packet_length = send_up_to - total_bytes_sent
         if sent != packet_length:
-            raise RuntimeError("sending error, not all packets not sent")
-        totalsent = totalsent + sent
+            raise RuntimeError("sending error, not all packets sent")
+        total_bytes_sent = total_bytes_sent + sent
 
 
 def recv_msg(sock):
