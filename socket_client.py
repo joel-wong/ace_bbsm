@@ -1,6 +1,7 @@
 import socket
-import BBSM_CONSTANTS
-import message
+
+from ace_bbsm import BBSM_CONSTANTS
+from ace_bbsm import message
 
 
 class Client:

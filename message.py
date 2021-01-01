@@ -1,6 +1,3 @@
-import BBSM_CONSTANTS
-
-
 def send_msg(sock, msg):
     msg_len = len(msg)
     encoded_msg_len = msg_len.to_bytes(BBSM_CONSTANTS.MESSAGE_PREFIX_LENGTH, 'big')
