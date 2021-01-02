@@ -10,8 +10,13 @@ def send_msg(sock, msg):
 
 def recv_msg(sock):
     socket_input_file_handle = sock.makefile('r')
-    msg_len = int(socket_input_file_handle.readline())
-    msg = socket_input_file_handle.read(msg_len)
+    first_input = socket_input_file_handle.readline()
+    if first_input != "":
+        # socket has been closed
+        msg_len = int(first_input)
+        msg = socket_input_file_handle.read(msg_len)
+    else:
+        msg = ""
     socket_input_file_handle.close()
     # Return full message in String form
     return msg
