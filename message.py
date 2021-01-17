@@ -1,6 +1,3 @@
-import BBSM_CONSTANTS
-
-
 def send_msg(sock, msg):
     msg_len = len(msg)
     socket_output_file_handle = sock.makefile('w')
